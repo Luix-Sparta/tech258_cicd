@@ -110,9 +110,11 @@ This guide outlines the steps to create a Continuous Integration/Continuous Depl
     ![img_9.png](cicd_images/img_9.png)
 
 11. **Click Add build step in Build**: Add a build step to the job.
+    
     ![img_10.png](cicd_images/img_10.png)
 
 12. **Then Click "Execute shell"**: Select the "Execute shell" build step.
+    
     ![img_11.png](cicd_images/img_11.png)
 
 13. **Input the Command Into the execute shell**: Enter the shell commands to be executed as part of the build process.
