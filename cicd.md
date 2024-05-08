@@ -67,3 +67,80 @@ CD is essential in scenarios where:
 
 The diagram illustrates the flow of code changes through various stages of the CICD pipeline, including source control, automated builds, testing, and deployment.
 
+Master Server - Jenkins
+
+## CICD Job
+
+
+1. Click 'New Item'
+![img.png](img.png)
+
+2. Enter name
+![img_1.png](img_1.png)
+
+3. Select Freestyle project
+![img_2.png](img_2.png)
+
+4. Enter description
+![img_3.png](img_3.png)
+
+5. Enable GitHub and input URl
+![img_4.png](img_4.png)
+
+6. Enable Restict where this project can be run and input "sparta-ubuntu-node"
+![img_5.png](img_5.png)
+
+7. Enable Git for Source Code Management and input Repository URL
+![img_6.png](img_6.png)
+
+8. Input Private Key
+![img_7.png](img_7.png)
+
+9. Change to */main branch
+![img_8.png](img_8.png)
+
+10. In Build Envrionment, Enable Provide Node & npm bin/ folder to PATH
+![img_9.png](img_9.png)
+
+11. Click Add build step in Build
+![img_10.png](img_10.png)
+
+12. Then Click "Execute shell"
+![img_11.png](img_11.png)
+
+13. Input the Command Into the execute shell
+![img_12.png](img_12.png)
+
+14. Then click Save and Apply
+![img_13.png](img_13.png)
+
+## Adding A Web Hook
+
+1. First, Go to "Build Triggers" in Jenkins and enable "GitHub hook trigger for GITScm polling"
+![img_14.png](img_14.png)
+
+2. Navigate to the GitHub Repo
+
+3. Click "Settings"
+![img_15.png](img_15.png)
+
+4. Click Webhooks
+![img_16.png](img_16.png)
+
+5. Click "Add webhook"
+![img_17.png](img_17.png)
+
+6. For Payload URL input `http://3.9.14.9:8080/github-webhook/`
+![img_18.png](img_18.png)
+
+7. Change Content Type to "application/json"
+![img_19.png](img_19.png)
+
+8. Enable "Let me select individual events"
+![img_20.png](img_20.png)
+
+9. Enable Pull requests and Pushes
+![img_21.png](img_21.png)
+
+10. Make sure Active is enabled and click Add webhook
+![img_22.png](img_22.png)
