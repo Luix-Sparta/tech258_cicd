@@ -144,3 +144,7 @@ Master Server - Jenkins
 
 10. Make sure Active is enabled and click Add webhook
 ![img_22.png](img_22.png)
+
+11. Make a change and push the change to the Github Repo
+
+12. Check the build history on jenkins for a new build
