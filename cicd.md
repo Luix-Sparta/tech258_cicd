@@ -71,6 +71,7 @@ Master Server - Jenkins
 
 ## CICD Job
 
+### Steps to create the Jenkins Job
 
 1. Click 'New Item'
 ![img.png](img.png)
@@ -114,6 +115,9 @@ Master Server - Jenkins
 14. Then click Save and Apply
 ![img_13.png](img_13.png)
 
+15. Run Build and check console output
+![img_23.png](img_23.png)
+
 ## Adding A Web Hook
 
 1. First, Go to "Build Triggers" in Jenkins and enable "GitHub hook trigger for GITScm polling"
@@ -148,3 +152,4 @@ Master Server - Jenkins
 11. Make a change and push the change to the Github Repo
 
 12. Check the build history on jenkins for a new build
+![img_24.png](img_24.png)
