@@ -62,6 +62,7 @@ CD is essential in scenarios where:
 
 ### CICD Pipeline Diagram
 
+
 ![CICD Pipeline Diagram](images/CICD.png)
 
 The diagram illustrates the flow of code changes through various stages of the CICD pipeline, including source control, automated builds, testing, and deployment.
