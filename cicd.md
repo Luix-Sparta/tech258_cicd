@@ -118,6 +118,12 @@ This guide outlines the steps to create a Continuous Integration/Continuous Depl
 13. **Input the Command Into the execute shell**: Enter the shell commands to be executed as part of the build process.
     ![img_12.png](cicd_images/img_12.png)
 
+    **Commands:**
+```bash
+cd app
+npm install
+npm test
+```
 14. **Then click Save and Apply**: Save the job configuration changes.
     ![img_13.png](cicd_images/img_13.png)
 
