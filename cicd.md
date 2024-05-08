@@ -125,6 +125,7 @@ npm install
 npm test
 ```
 14. **Then click Save and Apply**: Save the job configuration changes.
+
     ![img_13.png](cicd_images/img_13.png)
 
 15. **Run Build and check console output**: Run the build job and review the console output for any errors or issues.
