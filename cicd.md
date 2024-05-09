@@ -6,7 +6,7 @@
 
 ### Overview of Jobs 1 to 3
 
-Jobs 1 to 3 constitute the Continuous Integration (CI) phase of the CICD pipeline, responsible for automating the build, testing, and merging processes:
+Jobs 1 to 2 constitute the Continuous Integration (CI) phase of the CICD pipeline, responsible for automating the build, testing, and merging processes:
 
 #### Job 1 - name-ci
 This job focuses on testing the application on the Dev branch, ensuring its stability before integration into the main branch. It performs the following tasks:
@@ -20,6 +20,8 @@ Once Job 1 successfully builds and tests the Dev branch, Job 2 handles the mergi
 - Configures GitHub details and merge settings
 - Merges the Dev branch with the main branch
 - Ensures continuous integration by triggering only upon successful completion of Job 1
+
+Job 3 initiates the Continuous Deployment (CD) phase:
 
 #### Job 3 - name-cd
 Job 3 initiates the Continuous Deployment (CD) phase by deploying the code from the main branch to production. It involves the following steps:
