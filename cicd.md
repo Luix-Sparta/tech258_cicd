@@ -211,6 +211,8 @@ npm test
 12. **Check the build history on Jenkins for a new build**: Verify that Jenkins triggers a new build in response to the webhook event.
     ![img_24.png](cicd_images/img_24.png)
 
+## Why Jenkins
+
 
 ## CICD Pipeline
 
@@ -219,7 +221,7 @@ npm test
 These 2 jobs are the CI section for the CICD Pipeline. Ensuring the Dev branch as a working build and then merging that working build with the main branch.
 
 #### Job 1 - name-ci
-This job will test NPM on the dev branch .
+This job will test NPM on the dev branch.
 
 Steps: 
 1. Create Job
@@ -258,7 +260,7 @@ Steps:
 11. Add name of repository `tech258-cicd`
 12. Add Branch to merge to `main`
 13. In "Build Environment" activate Provide Node & npm bin/ folder to PATH
-
+14. Go to Job 1 and add Job 2 as the post build step
 
 ### CD -
 
