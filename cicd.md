@@ -212,3 +212,65 @@ npm test
     ![img_24.png](cicd_images/img_24.png)
 
 
+## CICD Pipeline
+
+### CI -
+
+These 2 jobs are the CI section for the CICD Pipeline. Ensuring the Dev branch as a working build and then merging that working build with the main branch.
+
+#### Job 1 - name-ci
+This job will test NPM on the dev branch .
+
+Steps: 
+1. Create Job
+2. Input Description
+3. Input Github Project
+4. Restrict where this project can be run
+5. Select Git in Source Code Management
+6. Input Repository Url
+7. Input Credentials (Private Key)
+8. Specify the dev branch
+9. In "Build Triggers" activate GitHub hook trigger for GITScm polling
+10. In "Build Environment" activate Provide Node & npm bin/ folder to PATH
+11. In "Build", Click Add and Execute shell
+12. Input these commands
+```bash
+cd app
+npm install
+npm test
+```
+13. For now we will leave the Post build empty however in Job 2 we will come back and select Job 2 once it has been created.
+
+#### Job 2 - name-ci-merge
+This job will take the dev branch and Merge with main once job 1 is successfully built.
+
+Steps:
+1. Create Job
+2. Input Description
+3. Input Github Project
+4. Restrict where this project can be run
+5. Select Git in Source Code Management
+6. Input Repository Url
+7. Input Credentials (Private Key)
+8. Specify the dev branch
+9. Click Additional Behaviours for the plugin
+10. Click Merge Before build
+11. Add name of repository `tech258-cicd`
+12. Add Branch to merge to `main`
+13. In "Build Environment" activate Provide Node & npm bin/ folder to PATH
+
+
+### CD -
+
+These 2 jobs are the CD section for the CICD Pipeline.
+
+#### Job 3 - name-cd
+Get code from main branch and push it to production
+(SSh into prod to test)
+
+Steps:
+
+#### Job 4 - name-deploy
+Deploy the app - run the automatically
+
+Steps:
