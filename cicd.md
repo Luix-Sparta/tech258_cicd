@@ -2,6 +2,34 @@
 
 ## Task: Implementing Continuous Integration/Continuous Deployment (CICD) Pipeline
 
+![img.png](cicd_images/overview.png)
+
+### Overview of Jobs 1 to 3
+
+Jobs 1 to 3 constitute the Continuous Integration (CI) phase of the CICD pipeline, responsible for automating the build, testing, and merging processes:
+
+#### Job 1 - name-ci
+This job focuses on testing the application on the Dev branch, ensuring its stability before integration into the main branch. It performs the following tasks:
+- Creates a Dev branch with git
+- Tests NPM on the Dev branch
+- Triggers automatically via webhooks upon code changes
+- Executes commands for testing npm installation and running tests
+
+#### Job 2 - name-ci-merge
+Once Job 1 successfully builds and tests the Dev branch, Job 2 handles the merging process. It performs the following tasks:
+- Configures GitHub details and merge settings
+- Merges the Dev branch with the main branch
+- Ensures continuous integration by triggering only upon successful completion of Job 1
+
+#### Job 3 - name-cd
+Job 3 initiates the Continuous Deployment (CD) phase by deploying the code from the main branch to production. It involves the following steps:
+- Retrieves code from the main branch
+- Pushes the code to the production environment, typically an EC2 instance
+- Ensures network security by configuring SSH access and port settings
+- Installs necessary dependencies on the EC2 instance for the application to run
+
+These jobs collectively ensure a seamless integration and deployment process, automating key stages of the software development lifecycle and promoting efficiency, reliability, and consistency in software delivery.
+
 ### What is a CICD Pipeline?
 
 A CICD pipeline is a set of automated processes that facilitate the integration of code changes into a shared repository, along with automated testing and deployment. It ensures that code changes are efficiently and consistently built, tested, and deployed to production environments.
@@ -211,8 +239,23 @@ npm test
 12. **Check the build history on Jenkins for a new build**: Verify that Jenkins triggers a new build in response to the webhook event.
     ![img_24.png](cicd_images/img_24.png)
 
-## Why Jenkins
+## Why Jenkins for this CICD Pipeline
 
+Jenkins is chosen for orchestrating this Continuous Integration and Continuous Deployment (CICD) pipeline due to its versatility, robustness, and extensive plugin ecosystem. Here's why Jenkins is an apt choice:
+
+1. **Extensive Plugin Ecosystem:** Jenkins offers a vast array of plugins that cater to various requirements of modern CICD pipelines. These plugins enable seamless integration with popular version control systems like Git, build tools like npm, and deployment platforms like AWS EC2, ensuring flexibility and scalability in pipeline design.
+
+2. **Customizable and Flexible:** Jenkins allows for the creation of custom pipelines tailored to specific project requirements. The declarative pipeline syntax provides a flexible and intuitive way to define pipeline stages, steps, and conditions, enabling teams to automate diverse workflows efficiently.
+
+3. **Integration Capabilities:** Jenkins seamlessly integrates with other tools and services commonly used in CICD processes, such as GitHub for version control, npm for package management, and SSH for deployment to remote servers. This integration capability ensures smooth communication and data exchange between different stages of the pipeline.
+
+4. **Scalability and Distributed Builds:** Jenkins supports distributed builds, allowing teams to distribute build tasks across multiple agents, thereby optimizing resource utilization and reducing build times. This scalability feature is crucial for handling large projects and accommodating growing development teams.
+
+5. **Community Support and Documentation:** Jenkins benefits from a large and active community of developers and users who contribute plugins, provide support, and share best practices. Additionally, extensive documentation and tutorials are available, making it easier for teams to get started with Jenkins and troubleshoot any issues they encounter.
+
+6. **Open Source and Free:** Jenkins is an open-source tool, offering free access to its core functionality and plugins. This makes it accessible to teams of all sizes, including startups and open-source projects, without incurring additional costs for CICD automation.
+
+Overall, Jenkins' versatility, extensive plugin ecosystem, flexibility, and community support make it a reliable choice for implementing robust CICD pipelines, ensuring efficient software delivery and quality assurance processes.
 
 ## CICD Pipeline
 
@@ -224,7 +267,7 @@ npm test
 These 2 jobs are the CI section for the CICD Pipeline. Ensuring the Dev branch as a working build and then merging that working build with the main branch.
 
 #### Job 1 - name-ci
-This job will test NPM on the dev branch.
+This diagram shows the process of taking the Dev branch and testing the app.
 
 ![img.png](cicd_images/job1_diagram.png)
 
@@ -259,6 +302,8 @@ npm test
 
 #### Job 2 - name-ci-merge
 
+This diagram shows the process of taking the Dev branch and merging.
+
 ![img_1.png](cicd_images/job2_diagram.png)
 
 This job will take the dev branch and Merge with main once job 1 is successfully built.
@@ -279,9 +324,11 @@ This job will take the dev branch and Merge with main once job 1 is successfully
 8. Specify the dev branch
 9. Click Additional Behaviours for the plugin
 10. Click Merge Before build
-11. Add name of repository `tech258-cicd`
+11. Add name of repository `origin`
 12. Add Branch to merge to `main`
 13. In "Build Environment" activate Provide Node & npm bin/ folder to PATH
+14. Go to "Post-build Actions" and add Git Publisher
+15. Enable "Push only if Build Succeeds" and Merge Results
 14. Go to Job 1 and add Job 2 as the post build step
 
 ### CD -
@@ -302,7 +349,7 @@ Main Code tested, copy the app code over to production (an EC2 instance)
 - Network security groups: Allow SSH, 3000 (for node app) and 8080 (for Jenkins)
 - Copy app code to EC2 instance 
 - Install required dependancies (nodejs, )
-- 
+
 Now we can SSH in to our EC2 instance and manually install and start the app
 
 Steps:
