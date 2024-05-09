@@ -218,6 +218,9 @@ npm test
 
 ### CI -
 
+#### CICD Task Diagram
+
+
 These 2 jobs are the CI section for the CICD Pipeline. Ensuring the Dev branch as a working build and then merging that working build with the main branch.
 
 #### Job 1 - name-ci
