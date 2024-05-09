@@ -219,12 +219,13 @@ npm test
 ### CI -
 
 #### CICD Task Diagram
-
+![cicd-diagram.png](cicd-diagram.png)
 
 These 2 jobs are the CI section for the CICD Pipeline. Ensuring the Dev branch as a working build and then merging that working build with the main branch.
 
 #### Job 1 - name-ci
 This job will test NPM on the dev branch.
+![img.png](img.png)
 
 Steps: 
 1. Create Job
@@ -247,6 +248,9 @@ npm test
 13. For now we will leave the Post build empty however in Job 2 we will come back and select Job 2 once it has been created.
 
 #### Job 2 - name-ci-merge
+
+![img_1.png](img_1.png)
+
 This job will take the dev branch and Merge with main once job 1 is successfully built.
 
 Steps:
@@ -270,12 +274,36 @@ Steps:
 These 2 jobs are the CD section for the CICD Pipeline.
 
 #### Job 3 - name-cd
+
+![img_2.png](img_2.png)
+
 Get code from main branch and push it to production
 (SSh into prod to test)
+
+Plan: 
+
+Now our tested code is on main in GitHub, we need to copy our app code over to production (an EC2 instance)
+
+Create an EC2 instance (Ubuntu 18.04 LTS)
+Network security groups: Allow SSH, 3000 (for node app) and 8080 (for Jenkins)
+Copy app code to EC2 instance 
+Install required dependancies (nodejs, )
+Now we can SSH in to our EC2 instance and manually install and start the app
 
 Steps:
 
 #### Job 4 - name-deploy
+
+![img_3.png](img_3.png)
+
+We would like for our code to be automatically deployed (run npm start) when we push
+
+Use Jenkins to SSH into our EC2 without user input (yes)
+To SSH in, we have to upload our private key for the EC2 instance to Jenkins
+Goto app folder
+Start the app in the background (if starting normally, Jenkins will crash)
+We can run these jobs one after the other to complete the CI/CD pipeline
+
 Deploy the app - run the automatically
 
 Steps:
