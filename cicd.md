@@ -225,12 +225,16 @@ These 2 jobs are the CI section for the CICD Pipeline. Ensuring the Dev branch a
 
 #### Job 1 - name-ci
 This job will test NPM on the dev branch.
+
 ![img.png](cicd_images/job1_diagram.png)
 
 
+This job will test NPM on the dev branch.
 **Plan:**
-- Input Github Details
-- Configure Build
+- Create a dev branch with git 
+- Make a change locally and push to GitHub
+- This job will test NPM on the dev branch.
+- This job should trigger due to webhook 
 
 **Steps:** 
 1. Create Job
@@ -263,7 +267,7 @@ This job will take the dev branch and Merge with main once job 1 is successfully
 - Configure Merge
 
 
-Steps:
+**Steps:**
 1. Create Job
 2. Input Description
 3. Input Github Project
