@@ -344,6 +344,8 @@ These 2 jobs are the CD section for the CICD Pipeline.
 Get code from main branch and push it to production, then deploy
 (SSh into prod to test)
 
+Description: building CD if tests passed & collecting new code from main branch to push to production on ec2
+
 **Plan:**
 Main Code tested, copy the app code over to production (an EC2 instance)
 
@@ -465,6 +467,70 @@ pm2 kill
 # Launch app
 pm2 start app.js 
 ```
+
+**Full Job 3 "Execute shell" Code:**
+```bash
+# by pass key checking step/option
+# ssh into ec2
+# ssh ubuntu@ec2-34-244-219-186.eu-west-1.compute.amazonaws.com
+
+ssh -o "StrictHostKeyChecking=no" ubuntu@ec2-3-250-236-141.eu-west-1.compute.amazonaws.com <<EOF
+
+# run update and upgrade
+# install nginx
+# visit public ip to ensure nginx is running
+
+	sudo apt-get update -y
+    sudo apt-get upgrade -y
+	sudo apt-get install nginx -y
+    sudo systemctl enable nginx
+    sudo systemctl restart nginx
+	
+
+EOF
+
+# copy new code
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" app ubuntu@ec2-3-250-236-141.eu-west-1.compute.amazonaws.com:/home/ubuntu
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@ec2-3-250-236-141.eu-west-1.compute.amazonaws.com:/home/ubuntu
+
+
+# navigate to the env folder then app folder env/app
+# install the required dependencies using provision.sh
+#cd environment/app/
+#sudo chmod +x provision.sh
+#./provision.sh
+
+
+ssh -o  "StrictHostKeyChecking=no" ubuntu@ec2-3-250-236-141.eu-west-1.compute.amazonaws.com <<EOF
+
+# Install node
+curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash - && sudo apt-get install -y nodejs
+
+# Install npm
+sudo apt install npm -y
+
+# CD into the app folder
+cd app
+
+# Install Node packages such as pm2
+npm install
+
+# Install pm2
+sudo npm install pm2 -g
+
+# Kill the processes on pm2
+pm2 kill
+
+# Launch app
+pm2 start app.js 
+
+EOF
+
+# navigate to app folder
+# install npm
+# start the app in the background
+```
+
 
 #### Job 4 - name-deploy
 Deploy the app - run the automatically
