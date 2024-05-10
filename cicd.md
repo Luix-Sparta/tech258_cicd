@@ -314,6 +314,7 @@ This job will take the dev branch and Merge with main once job 1 is successfully
 - Input Github details
 - Configure Merge
 
+(Refer to previous steps of how to create a Jenkins job)
 
 **Steps:**
 1. Create Job
