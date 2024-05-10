@@ -356,6 +356,63 @@ Now we can SSH in to our EC2 instance and manually install and start the app
 
 Steps:
 
+Before we can continue we ned to create a EC2 instance and SG group.
+Ubuntu - 18.04LTS - Nodejs version-x - pm2/npm- reverse proxy then Nginx
+Ports - 3000 - 80 - 22 - 8080, Bypass ssh key checking
+
+(Steps to create a EC2 instance - )
+
+1. Create an EC2 instance using the Ami Provided which has Ubuntu 18.04 - https://eu-west-1.console.aws.amazon.com/ec2/home?region=eu-west-1#ImageDetails:imageId=ami-02f0341ac93c96375
+
+3. Set the Security group to allow inbound traffic from ports 3000,80,22 ,8080
+- 3000 - App/Database
+- 80 - Http
+- 22 - SSH
+- 8080 - Jenkins
+
+3. Create the Instance and copy the IP
+
+4. Create a Jenkins Job
+
+5. Keep the same settings as previous steps however make sure the branch is set to main
+
+6. Make sure to connect "tech258.pem" as the SSH Agent
+
+7. In the Build Execute script section, To SSH into the instance and install/run Nginx run this code.
+**Script Code:**
+```bash
+# by pass key checking step/option
+# ssh into ec2
+# ssh ubuntu@ec2-34-244-219-186.eu-west-1.compute.amazonaws.com
+
+ssh -o "StrictHostKeyChecking=no" ubuntu@ec2-18-201-206-130.eu-west-1.compute.amazonaws.com <<EOF
+
+# run update and upgrade
+# install nginx
+# visit public ip to ensure nginx is running
+
+	sudo apt-get update -y
+    sudo apt-get upgrade -y
+	sudo apt-get install nginx -y
+    sudo systemctl enable nginx
+EOF
+```
+
+8. Check the Public IP works
+![img.png](cicd_images/public_ip_check.png)
+
+9. Now to add the App and Environment folders to the instance from the Jenkins workload, use this code, making sure to change the IP if necessary
+```bash
+# copy new code
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" app ubuntu@ec2-18-201-206-130.eu-west-1.compute.amazonaws.com:/home/ubuntu
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@ec2-18-201-206-130.eu-west-1.compute.amazonaws.com:/home/ubuntu
+
+```
+10. Manually SSH into the Instance to make sure the files are there
+![img.png](cicd_images/check_app_and_environment_folders.png)
+
+11.
+
 #### Job 4 - name-deploy
 Deploy the app - run the automatically
 
