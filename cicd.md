@@ -341,7 +341,7 @@ These 2 jobs are the CD section for the CICD Pipeline.
 
 ![img_2.png](cicd_images/job3_diagram.png)
 
-Get code from main branch and push it to production
+Get code from main branch and push it to production, then deploy
 (SSh into prod to test)
 
 **Plan:**
@@ -351,6 +351,14 @@ Main Code tested, copy the app code over to production (an EC2 instance)
 - Network security groups: Allow SSH, 3000 (for node app) and 8080 (for Jenkins)
 - Copy app code to EC2 instance 
 - Install required dependancies (nodejs, )
+
+Code to be automatically deployed (run npm start) when pushed
+
+- Use Jenkins to SSH into our EC2 without user input (yes)
+- To SSH in, we have to upload our private key for the EC2 instance to Jenkins
+- Goto app folder
+- Start the app in the background (if starting normally, Jenkins will crash)
+- We can run these jobs one after the other to complete the CI/CD pipeline
 
 Now we can SSH in to our EC2 instance and manually install and start the app
 
@@ -411,7 +419,51 @@ rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@ec2-18-201-20
 10. Manually SSH into the Instance to make sure the files are there
 ![img.png](cicd_images/check_app_and_environment_folders.png)
 
-11.
+11. Start a new line of code using
+```ssh -o  "StrictHostKeyChecking=no" ubuntu@34.244.64.147 <<EOF```
+
+12. Install node
+```bash
+# Install node
+curl -fsSL https://deb.nodesource.com/setup_10.x | sudo DEBIAN_FRONTEND=noninteractive -E bash - && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+```
+
+13. Install npm
+```bash
+# Install npm
+sudo apt install npm -y
+```
+
+14. CD into the app folder
+```bash
+# CD into the app folder
+cd app
+```
+
+15. Install Node packages such as pm2
+```bash
+# Install node packages
+npm install
+
+```
+
+16. Install pm2
+```bash
+# Install pm2
+sudo npm install pm2 -g
+```
+
+17. Kill the processes on pm2
+```bash
+# Kill the processes on pm2
+pm2 kill
+```
+
+18. Launch app
+```bash
+# Launch app
+pm2 start app.js 
+```
 
 #### Job 4 - name-deploy
 Deploy the app - run the automatically
