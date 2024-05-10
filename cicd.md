@@ -417,6 +417,7 @@ rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@ec2-18-201-20
 
 ```
 10. Manually SSH into the Instance to make sure the files are there
+
 ![img.png](cicd_images/check_app_and_environment_folders.png)
 
 11. Start a new line of code using
