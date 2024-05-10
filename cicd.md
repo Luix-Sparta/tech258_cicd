@@ -426,7 +426,7 @@ rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@ec2-18-201-20
 12. Install node
 ```bash
 # Install node
-curl -fsSL https://deb.nodesource.com/setup_10.x | sudo DEBIAN_FRONTEND=noninteractive -E bash - && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash - && sudo apt-get install -y nodejs
 ```
 
 13. Install npm
