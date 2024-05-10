@@ -405,8 +405,13 @@ ssh -o "StrictHostKeyChecking=no" ubuntu@ec2-18-201-206-130.eu-west-1.compute.am
     sudo apt-get upgrade -y
 	sudo apt-get install nginx -y
     sudo systemctl enable nginx
+    sudo sed -i '51s/.*/\t        proxy_pass http:\/\/localhost:3000;/' /etc/nginx/sites-enabled/default
+    sudo systemctl restart nginx
+    
 EOF
 ```
+
+These commands install nginx and configure the reverse proxy.
 
 8. Check the Public IP works
 ![img.png](cicd_images/public_ip_check.png)
