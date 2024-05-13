@@ -355,13 +355,6 @@ Main Code tested, copy the app code over to production (an EC2 instance)
 - Copy app code to EC2 instance 
 - Install required dependancies (nodejs, )
 
-Code to be automatically deployed (run npm start) when pushed
-
-- Use Jenkins to SSH into our EC2 without user input (yes)
-- To SSH in, we have to upload our private key for the EC2 instance to Jenkins
-- Goto app folder
-- Start the app in the background (if starting normally, Jenkins will crash)
-- We can run these jobs one after the other to complete the CI/CD pipeline
 
 Now we can SSH in to our EC2 instance and manually install and start the app
 
@@ -443,36 +436,7 @@ curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash - && sudo apt-ge
 sudo apt install npm -y
 ```
 
-14. CD into the app folder
-```bash
-# CD into the app folder
-cd app
-```
 
-15. Install Node packages such as pm2
-```bash
-# Install node packages
-npm install
-
-```
-
-16. Install pm2
-```bash
-# Install pm2
-sudo npm install pm2 -g
-```
-
-17. Kill the processes on pm2
-```bash
-# Kill the processes on pm2
-pm2 kill
-```
-
-18. Launch app
-```bash
-# Launch app
-pm2 start app.js 
-```
 
 **Full Job 3 "Execute shell" Code:**
 ```bash
@@ -516,6 +480,73 @@ curl -fsSL https://deb.nodesource.com/setup_10.x | sudo -E bash - && sudo apt-ge
 sudo apt install npm -y
 
 # CD into the app folder
+#cd app
+
+# Install Node packages such as pm2
+#npm install
+
+# Install pm2
+#sudo npm install pm2 -g
+
+# Kill the processes on pm2
+#pm2 kill
+
+# Launch app
+#pm2 start app.js 
+
+EOF
+
+# navigate to app folder
+# install npm
+# start the app in the background
+```
+
+
+#### Job 4 - name-app-deployment
+Deploy the app - run the automatically
+
+![img_3.png](cicd_images/job4_diagram.png)
+
+**Plan:**
+Code to be automatically deployed (run npm start) when pushed
+
+- Use Jenkins to SSH into our EC2 without user input (yes)
+- To SSH in, we have to upload our private key for the EC2 instance to Jenkins
+- Goto app folder
+- Start the app in the background (if starting normally, Jenkins will crash)
+-We can run these jobs one after the other to complete the CI/CD pipeline
+
+  
+**Steps:**
+
+1. Create the Instance and copy the IP for the EC2 Instance in previous steps
+
+2. Create a Jenkins Job
+
+3. Keep the same settings as previous steps however make sure the branch is set to main
+
+4. Make sure to connect "tech258.pem" as the SSH Agent
+
+5. In the Build Execute script section, To SSH into the instance and install/run Nginx run this code.
+**Script Code:**
+```bash
+# copy new code
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" app ubuntu@ec2-34-245-37-81.eu-west-1.compute.amazonaws.com:/home/ubuntu
+rsync -avz -e "ssh -o StrictHostKeyChecking=no" environment ubuntu@ec2-34-245-37-81.eu-west-1.compute.amazonaws.com:/home/ubuntu
+
+
+ssh -o "StrictHostKeyChecking=no" ubuntu@ec2-34-245-37-81.eu-west-1.compute.amazonaws.com <<EOF
+
+# Clone the code from main branch
+# push to the prod env/ec2-ip
+# navigate to the app folder
+# install required dependencies / npm install
+# change made by luixhiano devops tech258
+# launch the app - node app.js/ npm start - MUST NOT RUN THESE COMMANDS USING JENKINS
+# ensure to kill npm/node/pm2 first then relaunch - sudo kill all/-9
+# launch the app in the background - google the command
+
+# CD into the app folder
 cd app
 
 # Install Node packages such as pm2
@@ -532,25 +563,54 @@ pm2 start app.js
 
 EOF
 
-# navigate to app folder
-# install npm
-# start the app in the background
+
+```
+6. CD into the app folder
+```bash
+# CD into the app folder
+cd app
+```
+7. Install Node packages such as pm2
+```bash
+# Install node packages
+npm install
+
+```
+8. Install pm2
+```bash
+# Install pm2
+sudo npm install pm2 -g
 ```
 
+9. Kill the processes on pm2
+```bash
+# Kill the processes on pm2
+pm2 kill
+```
 
-#### Job 4 - name-deploy
-Deploy the app - run the automatically
+10. Launch app
+```bash
+# Launch app
+pm2 start app.js 
+```
+
+#### Job 5 - name-db
+Set up the database and run it - 
 
 ![img_3.png](cicd_images/job4_diagram.png)
 
 **Plan:**
-Code to be automatically deployed (run npm start) when pushed
+Database to be setup and run when the last job is finished
 
 - Use Jenkins to SSH into our EC2 without user input (yes)
 - To SSH in, we have to upload our private key for the EC2 instance to Jenkins
-- Goto app folder
-- Start the app in the background (if starting normally, Jenkins will crash)
--We can run these jobs one after the other to complete the CI/CD pipeline
+- Go to db folder
+- Install DB
+- Config DB
+- Enable DB
+- Run DB
 
   
 **Steps:**
+
+1. Create a EC2 instance for the Database
