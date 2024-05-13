@@ -261,6 +261,89 @@ Overall, Jenkins' versatility, extensive plugin ecosystem, flexibility, and comm
 
 ## CICD Pipeline
 
+### Creating your own Jenkins Server -
+
+1. Create The EC2 Instance For Jenkins, Use these ports,
+- 22 - SSH
+- 80 - HTTP
+- 8080 - Jenkins
+
+2. Install Java
+
+**Use Documentation:** https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-on-ubuntu-18-04#installing-specific-versions-of-openjdk
+
+Installing the Default JRE
+
+The easiest option for installing Java is to use the version packaged with Ubuntu. By default, Ubuntu 18.04 includes Open JDK 11, which is an open-source variant of the JRE and JDK.
+
+To install this version, first update the package index:
+
+```bash
+sudo apt update
+```
+
+Next, check if Java is already installed:
+
+```bash
+java -version
+```
+
+If Java is not currently installed, you’ll see the following output:
+```bash
+Output
+Command 'java' not found, but can be installed with:
+
+sudo apt install default-jre
+sudo apt install openjdk-11-jre-headless
+sudo apt install openjdk-8-jre-headless
+```
+
+Execute the following command to install the default Java Runtime Environment (JRE), which will install the JRE from OpenJDK 11:
+```bash
+sudo apt install default-jre
+```
+The JRE will allow you to run almost all Java software.
+
+Verify the installation with:
+```bash
+java -version
+```
+You’ll see output similar to the following:
+```bash
+Output
+openjdk version "11.0.11" 2021-04-20
+OpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.18.04)
+OpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.18.04, mixed mode, sharing))
+```
+
+3. Install Jenkins
+
+**Use Documentation:** https://www.jenkins.io/doc/book/installing/linux/#long-term-support-release
+
+**Bash Commands:**
+```bash
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins
+```
+
+4. Log Into Jenkins using public IP of EC2 instance and the 8080 port
+
+5. Install Suggested Plugins
+
+6. Install Required Plugins for Jenkins
+- NodeJs 
+- SSH Agent - To Log Into the EC2 Instance
+
+7. Click Bell, Manage Jenkins, Tools, Scroll down and click Add NodeJS, Name appropriately and Set up NodeJS for version 13.3.0 so that its compatibility with our Ami.
+
+8. Manage Jenkins, Security, Git Host Key Verification Configuration, For Host Key Verification Strategy, Choose Accept first connection to allow SSH keys for the Github
+
+
 ### CI -
 
 #### CICD Task Diagram
